@@ -5,27 +5,19 @@ const gulp = require('gulp'),
     replace = require('gulp-replace');
 
 const transpile = (target, module) => {
-    return (
-        gulp
-            .src('src/*.ts')
+    const tsProject = typescript.createProject('tsconfig.json', { target, module });
 
-            // First, we transpile back to JS.
-            .pipe(
-                typescript({
-                    target,
-                    module
-                })
-            )
+    // First, we transpile back to JS.
+    const tsResult = tsProject.src().pipe(tsProject());
 
-            // Next, uglify it.
-            .pipe(
-                terser({
-                    output: {
-                        comments: '/^!/'
-                    }
-                })
-            )
-    );
+    tsResult.dts.pipe(gulp.dest('src'));
+
+    return tsResult.js.pipe(
+      terser({
+        output: {
+          comments: '/^!/'
+        }
+      }));
 };
 
 /** Save plugin to be used with UMD pattern. */
