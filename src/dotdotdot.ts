@@ -593,7 +593,7 @@ export default class Dotdotdot {
                 properties.push('borderTopWidth');
                 properties.push('borderBottomWidth');
             //	no break -> padding needs to be added too
-
+                break;
             case 'padding-box':
                 properties.push('paddingTop');
                 properties.push('paddingBottom');
